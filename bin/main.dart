@@ -23,10 +23,13 @@ List<Option> buildFormatOptions() {
 
 List<Option> buildFileOptions() {
   //get a reference to the current working directory
-
-  // Fing all the files and filders in this directory
-
-  // Look through that list and find only the *images*
+  return Directory.current.listSync().where((entity) {
+    return FileSystemEntity.isFileSync(entity.path) &&
+        entity.path.contains(new RegExp(r'\.(png|jpg|jpeg)'));
+  }).map((entity) {
+    final filename = entity.path.split(Platform.pathSeparator).last;
+    return new Option(filename, entity);
+  }).toList();
 
   //Take all the images and create an option object out of each
 }
